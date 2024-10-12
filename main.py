@@ -18,7 +18,7 @@ def download_video(video_url):
 
 @app.route('/')
 def index():
-    return render_template('index.htm')
+    return render_template('index.html')
 
 @app.route('/download', methods=['POST'])
 def download():
