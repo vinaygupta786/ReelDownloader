@@ -6,13 +6,18 @@ app = Flask(__name__)
 
 def download_video(video_url):
     ydl_opts = {
-        'format': 'best',
-        'outtmpl': 'downloads/%(title)s.%(ext)s',  # Save to a "downloads" folder
-        'cookies': '/absolute/path/to/your/cookies.txt',  # Make sure this is correct
-        'headers': {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        }
+    'format': 'best',
+    'outtmpl': 'downloads/%(title)s.%(ext)s',
+    'nocheckcertificate': True,  # Skips SSL certificate checks
+    'extractor_args': {
+        'youtube': {
+            'skip_dash_manifest': True,  # Avoids issues with DASH streams
+        },
+    },
+    'headers': {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
     }
+}
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info_dict = ydl.extract_info(video_url, download=True)
